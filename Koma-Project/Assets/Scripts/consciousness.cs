@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class consciousness : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class consciousness : MonoBehaviour
 
     private float currentForce = 0f;
     private bool isApplyingForce = false;
+    private bool canJump = false;
 
     private Rigidbody2D rb;
 
@@ -26,14 +28,16 @@ public class consciousness : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)&&canJump==true)
         {
+            currentForce = minForce;
             isApplyingForce = true;
             arrowSpriteRenderer.enabled=true;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) && canJump==true)
         {
+            canJump = false;
             // Debug.Log ile son kuvveti görüntüle
             Debug.Log("Son Kuvvet: " + currentForce);
 
@@ -86,6 +90,10 @@ public class consciousness : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Planet"))
         {
+            transform.parent= collision.transform;
+
+            canJump = true;
+            rb.velocity = Vector3.zero;
             Vector3 parentTransformPosition = transform.parent.position;
             Vector2 rbPosition = rb.position;
 
