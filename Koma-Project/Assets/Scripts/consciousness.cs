@@ -8,6 +8,9 @@ public class consciousness : MonoBehaviour
 {
     public float minForce = 10f;
     public float maxForce = 100f;
+    private Color minColor = Color.green;
+    private Color maxColor = Color.red;
+
 
     private float currentForce = 0f;
     private bool isApplyingForce = false;
@@ -28,14 +31,25 @@ public class consciousness : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)&&canJump==true)
+        ColorChange();
+        jump();
+    }
+    public void ColorChange()
+    {
+        float t = Mathf.InverseLerp(minForce, maxForce, currentForce);
+        arrowSpriteRenderer.color = Color.Lerp(minColor, maxColor, t);
+    }
+    public void jump()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Space) && canJump == true)
         {
             currentForce = minForce;
             isApplyingForce = true;
-            arrowSpriteRenderer.enabled=true;
+            arrowSpriteRenderer.enabled = true;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) && canJump==true)
+        if (Input.GetKeyUp(KeyCode.Space) && canJump == true)
         {
             canJump = false;
             // Debug.Log ile son kuvveti görüntüle
@@ -48,7 +62,7 @@ public class consciousness : MonoBehaviour
             transform.parent = null;
 
             Vector2 forceDirection = (rbPosition - (Vector2)parentTransformPosition).normalized;
-            rb.AddForce(forceDirection * currentForce*10);
+            rb.AddForce(forceDirection * currentForce * 10);
 
             isApplyingForce = false;
             arrowSpriteRenderer.enabled = false;
@@ -58,32 +72,32 @@ public class consciousness : MonoBehaviour
         {
             // Kuvvet deðiþkenini artýr
             Debug.Log("Su anki Kuvvet: " + currentForce);
-            
-            arrow.transform.localScale = Vector3.one*currentForce/50;
-            
-            if (forceChangeDirection==true)
+
+            arrow.transform.localScale = Vector3.one * currentForce / 50;
+
+            if (forceChangeDirection == true)
             {
-                currentForce = Mathf.Clamp(currentForce + Time.deltaTime * 50f, minForce, maxForce);
-                arrow.transform.localPosition = new Vector3(arrow.transform.localPosition.x, arrow.transform.localPosition.y + currentForce / 5000, arrow.transform.localPosition.z);
+                currentForce = Mathf.Clamp(currentForce + Time.deltaTime * 40f, minForce, maxForce);
+                arrow.transform.localPosition = new Vector3(arrow.transform.localPosition.x, arrow.transform.localPosition.y + currentForce / 7000, arrow.transform.localPosition.z);
 
             }
-            else if (forceChangeDirection==false)
+            else if (forceChangeDirection == false)
             {
-                currentForce = Mathf.Max(currentForce -  Time.deltaTime * 50f, minForce);
-                arrow.transform.localPosition = new Vector3(arrow.transform.localPosition.x, arrow.transform.localPosition.y - currentForce / 5000, arrow.transform.localPosition.z);
+                currentForce = Mathf.Max(currentForce - Time.deltaTime * 40f, minForce);
+                arrow.transform.localPosition = new Vector3(arrow.transform.localPosition.x, arrow.transform.localPosition.y - currentForce / 7000, arrow.transform.localPosition.z);
 
 
             }
-            if (currentForce>=maxForce)
+            if (currentForce >= maxForce)
             {
                 forceChangeDirection = false;
             }
-            if (currentForce<=minForce)
+            if (currentForce <= minForce)
             {
-               forceChangeDirection = true;
+                forceChangeDirection = true;
             }
-            
-            
+
+
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
