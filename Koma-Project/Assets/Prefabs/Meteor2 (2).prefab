@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3775211888395801406}
   - component: {fileID: 15560876464069464}
   - component: {fileID: -432314241170274632}
+  - component: {fileID: -5316912857238509359}
   m_Layer: 0
   m_Name: Meteor2 (2)
   m_TagString: Obstacles
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5119374015873248371}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.008449807, w: 0.9999643}
+  m_LocalRotation: {x: 0, y: 0, z: 0.00844728, w: 0.99996436}
   m_LocalPosition: {x: 2.01, y: -3.19, z: 9.323643}
   m_LocalScale: {x: 0.09270318, y: 0.09270318, z: 0.09270318}
   m_ConstrainProportionsScale: 0
@@ -120,7 +121,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0.17745422, y: -0.5915219}
   serializedVersion: 2
-  m_Radius: 5.744436
+  m_Radius: 2.51
 --- !u!50 &-432314241170274632
 Rigidbody2D:
   serializedVersion: 4
@@ -148,3 +149,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-5316912857238509359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5119374015873248371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f23860002a4f2c34b936104c380986bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animObject: {fileID: 7717114213576069780, guid: d88f4bf1e6912d14eb9cb7bb91e7e850, type: 3}

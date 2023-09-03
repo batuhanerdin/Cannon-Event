@@ -106,6 +106,14 @@ public class consciousness : MonoBehaviour
 
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacles"))
+        {
+            transform.position = lastCheckPoint;
+            arrow.transform.localPosition = new Vector3(0, 0.8f, 0);
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Planet"))
@@ -159,9 +167,14 @@ public class consciousness : MonoBehaviour
             }
 
         }
-        else if (collision.gameObject.CompareTag("Obstacles"))
+        else if (collision.gameObject.CompareTag("WormHole"))
+        {
+            transform.position = collision.gameObject.transform.parent.position;
+        }
+        else if (collision.gameObject.CompareTag("Obstacles") || collision.gameObject.CompareTag("BlackHole"))
         {
             transform.position = lastCheckPoint;
+            arrow.transform.localPosition = new Vector3(0, 0.8f, 0);
         }
     }
 }
