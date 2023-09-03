@@ -26,7 +26,7 @@ public class PlanetGravity : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if ((other.CompareTag("Player")) || (other.CompareTag("Obstacles")))
         {
             Vector2 direction = transform.position - other.transform.position;
             float distance = direction.magnitude;
