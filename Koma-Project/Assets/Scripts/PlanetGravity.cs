@@ -8,6 +8,7 @@ public class PlanetGravity : MonoBehaviour
     public float gravityForce=5;
     public float orbitDistance=5;
     public float orbitSpeed=5;
+    public int cameraDirection=0;
 
     private CircleCollider2D CircleCollider2D;
     private CircleCollider2D triggerCircleCollider2D;

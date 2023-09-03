@@ -21,9 +21,15 @@ public class consciousness : MonoBehaviour
     public GameObject arrow;
     private SpriteRenderer arrowSpriteRenderer;
     private bool forceChangeDirection = true;
+    private CameraFollow cameraFollow;
+    public GameObject m_camera;
+    public Vector3 lastCheckPoint;
+    
 
     private void Start()
     {
+        
+        cameraFollow= m_camera.GetComponent<CameraFollow>();
         rb = GetComponent<Rigidbody2D>();
         arrowSpriteRenderer=arrow.GetComponent<SpriteRenderer>();
         arrowSpriteRenderer.enabled = false;
@@ -117,6 +123,45 @@ public class consciousness : MonoBehaviour
 
             float angle = Mathf.Atan2(arrowDirection.y, arrowDirection.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0f, 0f, angle-90f);
+        }
+        if (collision.gameObject.CompareTag("Checkpoint"))
+        {
+            transform.parent = collision.transform;
+
+            canJump = true;
+            rb.velocity = Vector3.zero;
+            Vector3 parentTransformPosition = transform.parent.position;
+            Vector2 rbPosition = rb.position;
+
+            Vector2 arrowDirection = (rbPosition - (Vector2)parentTransformPosition).normalized;
+            Debug.Log(arrowDirection.x + ", " + arrowDirection.y);
+            //arrow.transform.Rotate(0,0,arrowDirection);
+
+            float angle = Mathf.Atan2(arrowDirection.y, arrowDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+            lastCheckPoint = gameObject.transform.position;
+            //PlanetGravity planetGravity = collision.gameObject.GetComponent<PlanetGravity>();
+            if (collision.gameObject.GetComponent<PlanetGravity>().cameraDirection==1)
+            {
+                collision.gameObject.GetComponent<PlanetGravity>().cameraDirection = 0;
+                
+                cameraFollow.HareketEt(new Vector3(m_camera.transform.position.x+16, m_camera.transform.position.y, m_camera.transform.position.z));
+            }
+            else if(collision.gameObject.GetComponent<PlanetGravity>().cameraDirection == 2)
+            {
+                collision.gameObject.GetComponent<PlanetGravity>().cameraDirection = 0;
+                cameraFollow.HareketEt(new Vector3(m_camera.transform.position.x, m_camera.transform.position.y-10, m_camera.transform.position.z));
+            }
+            else if (collision.gameObject.GetComponent<PlanetGravity>().cameraDirection == 3)
+            {
+                collision.gameObject.GetComponent<PlanetGravity>().cameraDirection = 0;
+                cameraFollow.HareketEt(new Vector3(m_camera.transform.position.x-16, m_camera.transform.position.y, m_camera.transform.position.z));
+            }
+
+        }
+        else if (collision.gameObject.CompareTag("Obstacles"))
+        {
+            transform.position = lastCheckPoint;
         }
     }
 }
