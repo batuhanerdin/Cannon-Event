@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityForce: 10
   orbitDistance: 2
-  orbitSpeed: 50
+  orbitSpeed: -50
   cameraDirection: 1
 --- !u!58 &6271232085967349480
 CircleCollider2D:

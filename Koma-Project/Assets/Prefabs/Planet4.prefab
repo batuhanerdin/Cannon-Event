@@ -200,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityForce: 40
   orbitDistance: 2
-  orbitSpeed: 40
+  orbitSpeed: -70
   cameraDirection: 0
 --- !u!1 &8643661149494405784
 GameObject:

@@ -14,7 +14,7 @@ public class SpawnerObjectDestroy : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player")|| collision.gameObject.CompareTag("Planet") 
-            || collision.gameObject.CompareTag("Checkpoint") || collision.gameObject.CompareTag("Checkpoint") 
+            || collision.gameObject.CompareTag("Checkpoint") || collision.gameObject.CompareTag("Obstacles") 
             || collision.gameObject.CompareTag("BlackHole"))
         {
             Destroy(gameObject);

@@ -24,11 +24,16 @@ public class consciousness : MonoBehaviour
     private CameraFollow cameraFollow;
     public GameObject m_camera;
     public Vector3 lastCheckPoint;
+
+    private AudioSource audioSource;
+    public AudioClip tpSFX;
+    public AudioClip landingSFX;
+    public AudioClip nextLevelSFX;
     
 
     private void Start()
     {
-        
+        audioSource=GetComponent<AudioSource>();
         cameraFollow= m_camera.GetComponent<CameraFollow>();
         rb = GetComponent<Rigidbody2D>();
         arrowSpriteRenderer=arrow.GetComponent<SpriteRenderer>();
@@ -84,24 +89,31 @@ public class consciousness : MonoBehaviour
             if (forceChangeDirection == true)
             {
                 currentForce = Mathf.Clamp(currentForce + Time.deltaTime * 40f, minForce, maxForce);
-                arrow.transform.localPosition = new Vector3(arrow.transform.localPosition.x, arrow.transform.localPosition.y + currentForce / 7000, arrow.transform.localPosition.z);
+                if (currentForce< maxForce)
+                {
+                    arrow.transform.localPosition = new Vector3(arrow.transform.localPosition.x, arrow.transform.localPosition.y + currentForce / 7000, arrow.transform.localPosition.z);
+
+                }
 
             }
             else if (forceChangeDirection == false)
             {
                 currentForce = Mathf.Max(currentForce - Time.deltaTime * 40f, minForce);
-                arrow.transform.localPosition = new Vector3(arrow.transform.localPosition.x, arrow.transform.localPosition.y - currentForce / 7000, arrow.transform.localPosition.z);
+                if (currentForce < minForce)
+                {
+                    arrow.transform.localPosition = new Vector3(arrow.transform.localPosition.x, arrow.transform.localPosition.y - currentForce / 7000, arrow.transform.localPosition.z);
 
+                }
 
             }
-            if (currentForce >= maxForce)
+            /*if (currentForce >= maxForce)
             {
                 forceChangeDirection = false;
             }
             if (currentForce <= minForce)
             {
                 forceChangeDirection = true;
-            }
+            }*/
 
 
         }
@@ -113,11 +125,20 @@ public class consciousness : MonoBehaviour
             transform.position = lastCheckPoint;
             arrow.transform.localPosition = new Vector3(0, 0.8f, 0);
         }
+        else if (collision.gameObject.CompareTag("WormHole"))
+        {
+            arrow.transform.localPosition = new Vector3(0, 0.8f, 0);
+            transform.position = collision.gameObject.transform.parent.position;
+        }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         if (collision.gameObject.CompareTag("Planet"))
         {
+            audioSource.PlayOneShot(landingSFX);
+            arrow.transform.localPosition = new Vector3(0, 0.8f, 0);
+            arrow.transform.localPosition = new Vector3(0, 0.8f, 0);
             transform.parent= collision.transform;
 
             canJump = true;
@@ -134,6 +155,8 @@ public class consciousness : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Checkpoint"))
         {
+            
+            arrow.transform.localPosition = new Vector3(0, 0.8f, 0);
             transform.parent = collision.transform;
 
             canJump = true;
@@ -152,24 +175,33 @@ public class consciousness : MonoBehaviour
             if (collision.gameObject.GetComponent<PlanetGravity>().cameraDirection==1)
             {
                 collision.gameObject.GetComponent<PlanetGravity>().cameraDirection = 0;
-                
                 cameraFollow.HareketEt(new Vector3(m_camera.transform.position.x+16, m_camera.transform.position.y, m_camera.transform.position.z));
+
+                audioSource.PlayOneShot(nextLevelSFX);
+                ProgressBar.stage++;
             }
             else if(collision.gameObject.GetComponent<PlanetGravity>().cameraDirection == 2)
             {
                 collision.gameObject.GetComponent<PlanetGravity>().cameraDirection = 0;
-                cameraFollow.HareketEt(new Vector3(m_camera.transform.position.x, m_camera.transform.position.y-10, m_camera.transform.position.z));
+                cameraFollow.HareketEt(new Vector3(m_camera.transform.position.x, m_camera.transform.position.y-8, m_camera.transform.position.z));
+                audioSource.PlayOneShot(nextLevelSFX);
+                ProgressBar.stage++;
             }
             else if (collision.gameObject.GetComponent<PlanetGravity>().cameraDirection == 3)
             {
                 collision.gameObject.GetComponent<PlanetGravity>().cameraDirection = 0;
                 cameraFollow.HareketEt(new Vector3(m_camera.transform.position.x-16, m_camera.transform.position.y, m_camera.transform.position.z));
+                audioSource.PlayOneShot(nextLevelSFX);
+                ProgressBar.stage++;
             }
+            Debug.Log("progress stage: " + ProgressBar.stage);
 
         }
         else if (collision.gameObject.CompareTag("WormHole"))
         {
+            arrow.transform.localPosition = new Vector3(0, 0.8f, 0);
             transform.position = collision.gameObject.transform.parent.position;
+            audioSource.PlayOneShot(tpSFX);
         }
         else if (collision.gameObject.CompareTag("Obstacles") || collision.gameObject.CompareTag("BlackHole"))
         {

@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a58ff7ba276fc64ab05a0ffea040260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravityForce: 15
+  gravityForce: 25
   orbitDistance: 3
-  orbitSpeed: 100
+  orbitSpeed: -100
   cameraDirection: 0
