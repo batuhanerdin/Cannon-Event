@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,10 @@ public class GameManager : MonoBehaviour
     public RectTransform centerPose;
     public AudioSource hearthAudioSource;
     public AudioClip  hearthAudioClip;
+    public AudioClip winSound;
+    public GameObject eyesOBJ;
+
+    private bool stopAge = false;
     private void Start()
     {
         currentCamera = gameObject;
@@ -32,7 +37,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator AgeIncreaser()
     {
-        while (age<=100)
+        while (age<=100&& stopAge==false)
         {
             yield return new WaitForSeconds(3f);
             age++;
@@ -59,5 +64,13 @@ public class GameManager : MonoBehaviour
     public void Secondpic()
     {
         currentImage.sprite = PPhoto[9];
+    }
+    public void Win()
+    {
+        currentImage.transform.parent.transform.position = centerPose.transform.position;
+        currentImage.transform.parent.transform.localScale = currentImage.transform.parent.transform.localScale * 3f;
+        stopAge = true;
+        hearthAudioSource.PlayOneShot(winSound);
+        eyesOBJ.SetActive(true);
     }
 }

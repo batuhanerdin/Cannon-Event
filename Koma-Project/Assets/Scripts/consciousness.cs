@@ -10,6 +10,7 @@ public class consciousness : MonoBehaviour
     public float maxForce = 100f;
     private Color minColor = Color.green;
     private Color maxColor = Color.red;
+    public GameManager gmanager;
 
 
     private float currentForce = 0f;
@@ -207,6 +208,10 @@ public class consciousness : MonoBehaviour
         {
             transform.position = lastCheckPoint;
             arrow.transform.localPosition = new Vector3(0, 0.8f, 0);
+        }
+        else if (collision.gameObject.CompareTag("Yatak"))
+        {
+            gmanager.Win();
         }
     }
 }

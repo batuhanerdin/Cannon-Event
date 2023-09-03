@@ -9,6 +9,7 @@ TagManager:
   - Obstacles
   - BlackHole
   - WormHole
+  - Yatak
   layers:
   - Default
   - TransparentFX
