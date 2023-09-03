@@ -14,28 +14,34 @@ public class ComicShower : MonoBehaviour
     private float lastKeyPressTime;
     private Vector3 targetPosition;
     private Quaternion targetRotation;
+    public Animator animator;
+    public bool canBeNext = true;
 
-    
+
+
     private void Start()
     {
         // Ýlk konuma git
         SwitchToPosition(currentPositionIndex);
+
     }
 
     private void Update()
     {
+
         // Her tuþa basýldýðýnda bir sonraki konuma geçiþ yap
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && canBeNext==true)
         {
             if (currentPositionIndex == positions.Length - 1)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
             SwitchToNextPosition();
         }
+        
 
         // Otomatik geçiþ süresi dolduysa bir sonraki konuma geçiþ yap
-        if (Time.time - lastKeyPressTime >= autoSwitchDelay)
+        if (Time.time - lastKeyPressTime >= autoSwitchDelay && canBeNext==true)
         {
             SwitchToNextPosition();
         }
@@ -48,6 +54,15 @@ public class ComicShower : MonoBehaviour
 
         
     }
+    private void NextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    private void StartAnimation()
+    {
+        animator.SetBool("StartAnim", true); // Animasyonu baþlatmak için bir tetikleyici kullanabilirsiniz.
+    }
 
     private void SwitchToNextPosition()
     {
@@ -55,6 +70,12 @@ public class ComicShower : MonoBehaviour
         currentPositionIndex = (currentPositionIndex + 1) % positions.Length;
         SwitchToPosition(currentPositionIndex);
         lastKeyPressTime = Time.time;
+        if (currentPositionIndex== positions.Length - 1)
+        {
+            canBeNext = false;
+            animator.SetBool("StartAnim", true);
+            Invoke("NextScene", 5.0f);
+        }
     }
 
     private void SwitchToPosition(int index)
