@@ -34,6 +34,10 @@ public class GameManager : MonoBehaviour
         {
             age = 99;
         }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Win();
+        }
     }
     IEnumerator AgeIncreaser()
     {
