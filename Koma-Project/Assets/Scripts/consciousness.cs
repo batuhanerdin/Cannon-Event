@@ -183,7 +183,7 @@ public class consciousness : MonoBehaviour
             else if(collision.gameObject.GetComponent<PlanetGravity>().cameraDirection == 2)
             {
                 collision.gameObject.GetComponent<PlanetGravity>().cameraDirection = 0;
-                cameraFollow.HareketEt(new Vector3(m_camera.transform.position.x, m_camera.transform.position.y-8, m_camera.transform.position.z));
+                cameraFollow.HareketEt(new Vector3(m_camera.transform.position.x, m_camera.transform.position.y-9, m_camera.transform.position.z));
                 audioSource.PlayOneShot(nextLevelSFX);
                 ProgressBar.stage++;
             }
